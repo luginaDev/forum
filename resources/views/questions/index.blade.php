@@ -10,13 +10,14 @@
                       <h2>  {{ __('All Questions') }} </h2>
                       <div class="ml-auto">
                         <a href="{{ route('questions.create') }}" class="btn btn-outline-secondary">Ask questions</a>
+                       
                     </div>
                     </div>
 
                 </div>
 
                 <div class="card-body">
-                    @include('layouts._messages')
+                   @include('layouts._messages')
                    @foreach ($questions as $question)
                        <div class="media">
                            <div class="d-flex flex-column counters">
@@ -34,7 +35,12 @@
                                 <div class="d-flex align-items-center">
                                     <h4 class="mt-0"><a href="{{ $question->url }}" class="text-primary">{{ $question->title }}</a></h4>
                                     <div class="ml-auto ">
-                                        <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
+                                        <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info ">Edit</a>
+                                        <form class="form-delete" method="post" action="{{ route('questions.destroy', $question->id) }}">
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('are you sure!')">Delete</button>
+                                            @csrf
+                                        </form>
                                     </div>
                                 </div>
                                 <p class="lead">
