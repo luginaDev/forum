@@ -35,7 +35,7 @@
                                     <h4 class="mt-0"><a href="{{ $question->url }}" class="text-primary">{{ $question->title }}</a></h4>
                                     <div class="ml-auto ">
                                         <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
-                                        <form action="{{ route('questions.destroy', $question->id) }}" method="post">
+                                        <form class="form-delete" action="{{ route('questions.destroy', $question->id) }}" method="post">
                                         @method('delete')
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-outline-danger">delete</button>
