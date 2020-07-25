@@ -14,7 +14,7 @@ class Question extends Model
 
     public function answers()
     {
-        return $this->hasMany(Aswer::class);
+        return $this->hasMany(Answer::class);
     }
 
     public function setTitleAttribute($value)
