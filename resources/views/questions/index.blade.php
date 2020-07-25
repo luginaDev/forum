@@ -24,7 +24,7 @@
                                     <strong>{{ $question->votes }} </strong>votes
                                </div>
                                <div class="status {{ $question->status }}">
-                                    <strong>{{ $question->answers }}</strong> answers
+                                    <strong>{{ $question->answers_count }}</strong> answers
                                </div>
                                <div class="view">
                                 {{ $question->views }} views
