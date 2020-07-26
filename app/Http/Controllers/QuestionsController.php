@@ -60,8 +60,11 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
+        //\DB::enableQueryLog();
         $question->increment('views');
         return view('questions.show', compact('question'));
+        // view('questions.show', compact('question'))->render();
+        // dd(\DB::getQueryLog());
     }
 
     /**
