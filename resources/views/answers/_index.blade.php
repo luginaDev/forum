@@ -5,61 +5,74 @@
                 <div class="card-title">
                     <h2>{{ $answersCount }} answers</h2>
                 </div>
-                <hr>
-                @include('layouts._messages')
-                @foreach ($answers as  $answer)
-                    <div class="media">
-                        <div class="d-flex  flex-column vote-controls">
-                            <a title="This answer is useful" class="vote-up">
-                               <i class="fas fa-caret-up fa-3x"></i>
-                            </a>
-                            <span class="votes-count">12</span>
-                            <a title="This answer is not useful" class="vote-down off">
-                                <i class="fas fa-caret-down fa-3x"></i>
-                            </a>
-                            <a class="{{ $answer->status }} mt-2 " title="Mark this answer as best answer">
+                <hr> @include('layouts._messages') @foreach ($answers as $answer)
+                <div class="media">
+                    <div class="d-flex  flex-column vote-controls">
+                        <a title="This answer is useful" class="vote-up">
+                            <i class="fas fa-caret-up fa-3x"></i>
+                        </a>
+                        <span class="votes-count">12</span>
+                        <a title="This answer is not useful" class="vote-down off">
+                            <i class="fas fa-caret-down fa-3x"></i>
+                        </a>
+                        @can('accept', $answer)
+                        <a class="{{ $answer->status }} mt-2 " title="Mark this answer as best answer"
+                            onclick="event.preventDefault(); document.getElementById('accept-answer-{{ $answer->id }}').submit();">
+                            <i class="fas fa-check fa-lg"></i>
+                        </a>
+                       
+                        <form style="display: none;" id="accept-answer-{{ $answer->id }}"
+                            action="{{ route('answers.accept', $answer->id) }}" method="post">
+                            @csrf
+                            <!-- this form is hidden -->
+                        </form>
+                            <!-- if user is not authorize -->
+                        @else
+                            @if ($answer->is_best)
+                            <a class="{{ $answer->status }} mt-2 " title="Mark this answer as best answer"
+                                ">
                                 <i class="fas fa-check fa-lg"></i>
-                              
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            {!! $answer->body_html !!}
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="ml-auto ">
-                                        @can('update', $answer)
-                                        <a href="{{ route('questions.answers.edit', [$question->id, $answer->id]) }}" class="btn btn-sm btn-outline-info">Edit</a>
-                                        @endcan
-                                        @can('delete', $answer)
-                                        <form class="form-delete" action="{{ route('questions.answers.destroy', [$question->id, $answer->id] ) }}" method="post">
-                                        @method('delete')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">delete</button>
+                            </a>                               
+                            @endif
+                        @endcan
+                    </div>
+                    <div class="media-body">
+                        {!! $answer->body_html !!}
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="ml-auto ">
+                                    @can('update', $answer)
+                                        <a href="{{ route('questions.answers.edit', [$question->id, $answer->id]) }}"
+                                            class="btn btn-sm btn-outline-info">Edit</a> @endcan @can('delete', $answer)
+                                        <form class="form-delete"
+                                            action="{{ route('questions.answers.destroy', [$question->id, $answer->id] ) }}"
+                                            method="post">
+                                            @method('delete') @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">delete</button>
                                         </form>
-                                        @endcan
-                                    </div>
+                                      
+                                    @endcan
                                 </div>
-                                <div class="col-4">
-
-                                </div>
-                                <div class="col-4">
-                                    <span class="text-muted">Answered {{ $answer->created_date }}</span>
-                                    <div class="media mt-2">
-                                        <a href="{{ $answer->user->url }}" class="pr-2">
+                            </div>
+                            <div class="col-4">
+                            </div>
+                            <div class="col-4">
+                                <span class="text-muted">Answered {{ $answer->created_date }}</span>
+                                <div class="media mt-2">
+                                    <a href="{{ $answer->user->url }}" class="pr-2">
                                         <img src="{{ $answer->user->avatar }}" alt="{{ $answer->user->name }}">
-                                        </a>
-                                        <div class="media-body mt-1">
-                                            <a href="{{ $answer->user->url }}">{{ $answer->user->name }}</a>
-                                        </div>
+                                    </a>
+                                    <div class="media-body mt-1">
+                                        <a href="{{ $answer->user->url }}">{{ $answer->user->name }}</a>
                                     </div>
                                 </div>
                             </div>
-                        
-                            
                         </div>
+
+
                     </div>
-                    <hr>
-                @endforeach
+                </div>
+                <hr> @endforeach
             </div>
         </div>
     </div>
